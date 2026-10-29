@@ -47,3 +47,7 @@ Run the downloaded `.run --profile aggressive` as an ordinary user. It provision
 Each package owns only this provider and its passive documentation. Its `Replaces` declaration transfers this module from `infiltrator-calendar-resources` on existing machines; other modules and Common source remain intact. Native package versions use `+native1` so a same-version generic package does not replace a local optimized build. See [packaging details](docs/PACKAGING.md).
 
 Translations use the provider-owned gettext domain `infiltrator-calendar-swedish-historical`. The package ships only its own messages in `/usr/share/locale/<language>/LC_MESSAGES/infiltrator-calendar-swedish-historical.mo`; Common’s combined translation package is not required. The exact compiled catalogues are checked through the provider ABI before packaging.
+
+## Installed illustrated guide
+
+The two-file package delivers the calendar `.so` and `Swedish Historical Calendar.pdf`, a picture-led public explanation of February 30, 1712 and the reform of 1753. Source documents remain here, not installed.
