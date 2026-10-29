@@ -1,0 +1,29 @@
+{
+  "title": "Swedish Historical Calendar",
+  "intro": "For a short period, Sweden used calendar dates that were not quite the Julian dates and not yet Gregorian dates. Its unusual reform even created 30 February 1712, a date that sounds impossible today.",
+  "diagram": "swedish",
+  "diagram_caption": "THREE MILESTONES IN SWEDEN'S CALENDAR CHANGE",
+  "caption_detail": "Swedish dates were shifted by an abandoned reform, then put back into the Julian system before the final Gregorian switch.",
+  "steps": [
+    {
+      "heading": "1700: Sweden begins a gradual change",
+      "text": "Sweden planned to move from Julian to Gregorian reckoning by skipping leap days. It skipped the Julian leap day in 1700, leaving its calendar one day ahead of Julian dates."
+    },
+    {
+      "heading": "1712: the extra day",
+      "text": "The plan was abandoned and the Julian reckoning restored. Sweden added an extra day in February 1712, producing the genuinely historical date 30 February."
+    },
+    {
+      "heading": "1753: a sudden Gregorian change",
+      "text": "Sweden finally switched to the Gregorian calendar by moving directly from Wednesday 17 February 1753 to Thursday 1 March 1753 in its civil date labels. Eleven numbered dates were omitted."
+    }
+  ],
+  "example": "In the local Swedish sequence, 29 February 1712 was followed by 30 February 1712 and then 1 March 1712. In 1753, 17 February was followed immediately by 1 March: there was no local 18-28 February that year.",
+  "history": "European countries changed from the older Julian calendar to the Gregorian calendar on different dates. Sweden attempted a gradual transition in 1700, reversed its change in 1712 and finally adopted Gregorian date labels in 1753.",
+  "model": "The provider models Sweden's documented 1700-1753 exceptions: Julian labels before the reform, the unusual 1712 leap correction and the 1753 Gregorian switch. It does not introduce a fictional everlasting Swedish calendar.",
+  "limits": "Modern dates and historical Swedish dates cannot be compared by label alone around the reform. The Swedish historical date numbering is a defined local rule; different neighbouring countries may have labelled the same physical day differently.",
+  "sources": [
+    "Timeanddate overview of Sweden's February 30: https://www.timeanddate.com/date/february-30.html",
+    "Provider evidence: https://github.com/Infiltrator-Projects/Calendar-Swedish-Historical/blob/main/docs/MODEL.md"
+  ]
+}
