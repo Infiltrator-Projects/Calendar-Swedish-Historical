@@ -106,13 +106,8 @@ calendar_swedish_fields_from_jdn(
         jdn_to_gregorian(jdn, &year, &month, &day);
     }
 
-    *fields = (CalendarCalendarFields){
-        .year = year,
-        .month = month,
-        .day = day,
-        .auxiliary = 0,
-        .special = (year == 1712 && month == 2 && day == 30)
-    };
+    *fields = CalendarCalendarFields{year, month, day, 0,
+        (year == 1712 && month == 2 && day == 30)};
 }
 
 gint64

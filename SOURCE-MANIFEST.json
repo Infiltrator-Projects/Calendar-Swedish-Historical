@@ -134,7 +134,7 @@
       "selected_definitions": []
     },
     {
-      "path": "src/calendars/engine/calendar-swedish.c",
+      "path": "src/calendars/engine/calendar-swedish.cpp",
       "source_path": "resources/temporal/src/calendars/engine/calendar-swedish.c",
       "source_sha256": "9010ffadd93efb1fb9125e9f94fc83858e5f24c4c35e6acd1da9f54b4af68f42",
       "copied_sha256": "9010ffadd93efb1fb9125e9f94fc83858e5f24c4c35e6acd1da9f54b4af68f42",
@@ -174,7 +174,7 @@
       "selected_definitions": []
     },
     {
-      "path": "src/calendars/engine/julian.c",
+      "path": "src/calendars/engine/julian.cpp",
       "source_path": "resources/temporal/src/calendars/engine/julian.c",
       "source_sha256": "e54af8a3ad7c93ccb04a84649403fda1bbee553e1ff6316991408100f232d299",
       "copied_sha256": "e54af8a3ad7c93ccb04a84649403fda1bbee553e1ff6316991408100f232d299",
@@ -231,7 +231,7 @@
       ]
     },
     {
-      "path": "src/support/julian-day.c",
+      "path": "src/support/julian-day.cpp",
       "source_path": "resources/temporal/src/support/julian-day.c",
       "source_sha256": "832024153d827129573b6a4f80bcb863086a38587e9bb14ad8f26a0e600d7da9",
       "copied_sha256": "95d434f79973c52934409e2ac345351e72deb03df0eb45d572effcc4c84c4419",
