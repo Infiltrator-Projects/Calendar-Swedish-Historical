@@ -50,4 +50,4 @@ Translations use the provider-owned gettext domain `infiltrator-calendar-swedish
 
 ## Installed illustrated guide
 
-The two-file package delivers the calendar `.so` and `Swedish Historical Calendar.pdf`, a picture-led public explanation of February 30, 1712 and the reform of 1753. Source documents remain here, not installed.
+The two-file package delivers the calendar `.so` and `Calendar-Swedish-Historical.pdf`, a picture-led public explanation of February 30, 1712 and the reform of 1753. Source documents remain here, not installed.
