@@ -15,24 +15,10 @@ extern "C" {
 }
 #include <string.h>
 
-typedef struct ResourceCalendar ResourceCalendar;
-typedef gint64 (*ResourceNavigateFunc)(const ResourceCalendar *, gint64, gint);
-struct ResourceCalendar {
-    CalendarCalendarMode mode;
-    const gchar *icu_keyword;
-    gboolean (*fields_from_jdn)(const ResourceCalendar *,gint64,CalendarCalendarFields *);
-    gchar *(*format)(const ResourceCalendar *,gint64,CalendarDatePart);
-    gint64 (*period_start)(const ResourceCalendar *,gint64);
-    ResourceNavigateFunc add_periods;
-    ResourceNavigateFunc add_years;
-};
-
 static gboolean
-swedish_fields(const ResourceCalendar *provider,
-               gint64 jdn,
+swedish_fields(gint64 jdn,
                CalendarCalendarFields *fields)
 {
-    (void)provider;
     if (jdn < calendar_julian_to_jdn(G_MININT, 1, 1) ||
         jdn > calendar_gregorian_to_jdn(G_MAXINT, 12, 31))
         return FALSE;
@@ -41,53 +27,21 @@ swedish_fields(const ResourceCalendar *provider,
 }
 
 static gchar *
-swedish_format(const ResourceCalendar *provider,
-               gint64 jdn,
+swedish_format(gint64 jdn,
                CalendarDatePart part)
 {
     CalendarCalendarFields fields;
 
-    (void)provider;
     calendar_swedish_fields_from_jdn(jdn, &fields);
     return calendar_swedish_format(&fields, part);
 }
 
-static gint64
-swedish_period_start(const ResourceCalendar *provider,
-                     gint64 jdn)
-{
-    (void)provider;
-    return calendar_swedish_month_start(jdn);
-}
-
-static gint64
-swedish_add_periods(const ResourceCalendar *provider,
-                    gint64 jdn,
-                    gint amount)
-{
-    (void)provider;
-    return calendar_swedish_add_months(jdn, amount);
-}
-
-static gint64
-swedish_add_years(const ResourceCalendar *provider,
-                  gint64 jdn,
-                  gint amount)
-{
-    (void)provider;
-    return calendar_swedish_add_years(jdn, amount);
-}
-
-#define RESOURCE_OPERATIONS swedish_fields, swedish_format, swedish_period_start, swedish_add_periods, swedish_add_years
-static const ResourceCalendar native = {
-    RESOURCE_MODE, RESOURCE_KEYWORD, RESOURCE_OPERATIONS
-};
 static bool fields(const InfiltratrTemporalCalendarProvider *self,
     int64_t jdn, InfiltratrTemporalCalendarFields *result)
 {
     CalendarCalendarFields value;
     (void)self;
-    if (result == NULL || !native.fields_from_jdn(&native,jdn,&value))
+    if (result == NULL || !swedish_fields(jdn,&value))
         return false;
     *result = InfiltratrTemporalCalendarFields{
         value.year, value.month, value.day, value.auxiliary, value.special != FALSE };
@@ -103,11 +57,11 @@ static bool format(const InfiltratrTemporalCalendarProvider *self,
     if (buffer == NULL || capacity == 0U ||
         part < INFILTRATR_TEMPORAL_CALENDAR_DATE_PART_DAY ||
         part > INFILTRATR_TEMPORAL_CALENDAR_DATE_PART_FULL ||
-        !native.fields_from_jdn(&native, jdn, &validated_fields))
+        !swedish_fields( jdn, &validated_fields))
         return false;
     /* Field conversion owns supported chronology. Formatting must not ask
      * ICU to invent dates outside a bounded arithmetic provider's range. */
-    text = native.format(&native, jdn, (CalendarDatePart)part);
+    text = swedish_format(jdn, (CalendarDatePart)part);
     if (text == NULL || *text == '\0') { g_free(text); return false; }
     const size_t size = strlen(text);
     if (size >= capacity) { g_free(text); return false; }
@@ -123,29 +77,31 @@ static bool start(const InfiltratrTemporalCalendarProvider *self,
     InfiltratrTemporalCalendarFields checked{};
     if (result == nullptr || !fields(self,jdn,&checked))
         return false;
-    const int64_t candidate=native.period_start(&native,jdn);
-    if (!native.fields_from_jdn(&native,candidate,&value)) return false;
+    const int64_t candidate=calendar_swedish_month_start(jdn);
+    if (!swedish_fields(candidate,&value)) return false;
     *result=candidate;
     return true;
 }
 static bool navigate(const InfiltratrTemporalCalendarProvider *self,
-    int64_t jdn,int32_t amount,int64_t *result,ResourceNavigateFunc operation)
+    int64_t jdn,int32_t amount,int64_t *result,bool by_year)
 {
     CalendarCalendarFields value;
     InfiltratrTemporalCalendarFields checked{};
     if (result == nullptr || !fields(self,jdn,&checked))
         return false;
-    const int64_t candidate=operation(&native,jdn,amount);
-    if (!native.fields_from_jdn(&native,candidate,&value)) return false;
+    const int64_t candidate=by_year
+        ? calendar_swedish_add_years(jdn,amount)
+        : calendar_swedish_add_months(jdn,amount);
+    if (!swedish_fields(candidate,&value)) return false;
     *result=candidate;
     return true;
 }
 static bool periods(const InfiltratrTemporalCalendarProvider *self,
     int64_t jdn,int32_t amount,int64_t *result)
-{ return navigate(self,jdn,amount,result,native.add_periods); }
+{ return navigate(self,jdn,amount,result,false); }
 static bool years(const InfiltratrTemporalCalendarProvider *self,
     int64_t jdn,int32_t amount,int64_t *result)
-{ return navigate(self,jdn,amount,result,native.add_years); }
+{ return navigate(self,jdn,amount,result,true); }
 static const InfiltratrTemporalResourceMetadata metadata = {
     sizeof(InfiltratrTemporalResourceMetadata),
     INFILTRATR_TEMPORAL_RESOURCE_METADATA_ABI,
